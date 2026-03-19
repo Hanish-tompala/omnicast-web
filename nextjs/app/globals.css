@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+@theme {
+    --font-poppins: "Poppins", sans-serif;
+}
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+body {
+    @apply bg-[#121212] text-white text-sm font-poppins antialiased;
+    color-scheme: dark;
+}
+
+button {
+    @apply cursor-pointer;
+}
+
+/* Hide scrollbar globally for absolute immaculate UI */
+html, body {
+    -ms-overflow-style: none !important; /* IE and Edge */
+    scrollbar-width: none !important; /* Firefox */
+}
+
+::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
+}
+
+*::-webkit-scrollbar {
+    display: none !important;
+}
