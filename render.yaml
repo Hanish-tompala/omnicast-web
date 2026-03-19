@@ -1,0 +1,28 @@
+services:
+  # 1. THE PYTHON BACKEND ("The Brain")
+  - type: web
+    name: omnicast-backend
+    env: python
+    rootDir: omni-podcast-converter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: MURF_API_KEY
+        sync: false # Tells Render to ask you for this securely later!
+      - key: NVIDIA_API_KEY
+        sync: false
+
+  # 2. THE NEXT.JS FRONTEND ("The Face")
+  - type: web
+    name: omnicast-frontend
+    env: node
+    rootDir: nextjs
+    buildCommand: npm install && npm run build
+    startCommand: npm start
+    envVars:
+      # This magically grabs the backend's live URL and feeds it to Next.js!
+      - key: NEXT_PUBLIC_API_URL
+        fromService:
+          type: web
+          name: omnicast-backend
+          envVarKey: RENDER_EXTERNAL_URL
